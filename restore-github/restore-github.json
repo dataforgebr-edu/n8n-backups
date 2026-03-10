@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-10T10:26:13.608Z",
+  "updatedAt": "2026-03-10T10:28:25.820Z",
   "createdAt": "2026-03-10T10:13:00.624Z",
   "id": "n3byDQAqXp46uZHH",
   "name": "restore-github",
@@ -11,7 +11,7 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        0,
+        -16,
         0
       ],
       "id": "e3121d72-7800-439a-9e81-38f77e2510d2",
@@ -191,7 +191,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "cb182961-0512-4682-804e-2703e9dc79b2",
+  "versionId": "e064192a-17fa-414f-9484-0afa2e4a1e1f",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
