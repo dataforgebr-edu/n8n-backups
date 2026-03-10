@@ -1,0 +1,830 @@
+{
+  "updatedAt": "2026-03-10T10:39:05.396Z",
+  "createdAt": "2026-03-10T10:37:48.950Z",
+  "id": "cplGVhYECrK7CY1V",
+  "name": "agenteia-conexao-postgre",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "gastos"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        -1088
+      ],
+      "id": "f821a5bd-a588-4fb4-ab14-7c7ebb1e4ae4",
+      "name": "Get many rows"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -256,
+        -928
+      ],
+      "id": "51345427-d26f-4ccf-8fd2-2b7a94ca9b21",
+      "name": "Select rows from a table"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ed41e529-20e5-4ca4-9d07-3c9334f797c1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -560,
+        -704
+      ],
+      "id": "9ee1d59b-9bc6-4faf-abe5-97af518b7047",
+      "name": "Webhook",
+      "webhookId": "ed41e529-20e5-4ca4-9d07-3c9334f797c1"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "valor": "={{ $json.valor }}",
+            "item": "={{ $json.item }}",
+            "fornecedor": "={{ $json.fornecedor }}",
+            "tipo_despesa": "={{ $json.tipo_despesa }}",
+            "data": "={{ $json.data }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "item",
+              "displayName": "item",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fornecedor",
+              "displayName": "fornecedor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tipo_despesa",
+              "displayName": "tipo_despesa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -352,
+        -704
+      ],
+      "id": "946a7d2f-2eec-4e33-9036-b57c6b8f5e68",
+      "name": "Insert rows in a table"
+    },
+    {
+      "parameters": {
+        "httpMethod": "PUT",
+        "path": "ed41e529-20e5-4ca4-9d07-3c9334f797c1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -560,
+        -512
+      ],
+      "id": "ad6ccd77-f22a-45ce-944e-b96a67d40081",
+      "name": "Webhook1",
+      "webhookId": "ed41e529-20e5-4ca4-9d07-3c9334f797c1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "valor": "={{ $json.valor }}",
+            "item": "={{ $json.item }}",
+            "fornecedor": "={{ $json.fornecedor }}",
+            "tipo_despesa": "={{ $json.tipo_despesa }}",
+            "data": "={{ $json.data }}",
+            "id": "={{ $json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "item",
+              "displayName": "item",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fornecedor",
+              "displayName": "fornecedor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tipo_despesa",
+              "displayName": "tipo_despesa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -352,
+        -512
+      ],
+      "id": "2e0f1ad7-df08-488c-85e1-ddb2b7936898",
+      "name": "Update rows in a table"
+    },
+    {
+      "parameters": {
+        "httpMethod": "DELETE",
+        "path": "ed41e529-20e5-4ca4-9d07-3c9334f797c1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -560,
+        -320
+      ],
+      "id": "5f4d5c43-8045-4636-bb87-eb2adad8c9f5",
+      "name": "Webhook2",
+      "webhookId": "ed41e529-20e5-4ca4-9d07-3c9334f797c1"
+    },
+    {
+      "parameters": {
+        "operation": "deleteTable",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "deleteCommand": "delete",
+        "where": {
+          "values": [
+            {
+              "column": "id",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -352,
+        -320
+      ],
+      "id": "d4a39c1d-814c-4660-b1b5-143a78d7fc5c",
+      "name": "Delete table or rows"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "[Role]\nVocê é um assistente de finanças pessoais. Seu único objetivo é realizar um CRUD das despesas enviadas pelo usuário.\n[Task 1]\n1.\tReceba a mensagem do usuário e comprimente educadamente.\n2.\tCrie uma lista numérica com as opções abaixo e peça para o usuário escolher o que deseja fazer relacionado as despesas.\n- Inserir \n- Consultar\n- Atualizar\n- Apagar \n\n3.\tSe o usuário escolher a opção inserir vá para a [Task 2].\n4.\tSe o usuário escolher a opção consultar vá para a [Task 3]\n5.\tSe o usuário escolher a opção atualizar vá para a [Task 4]\n6.\tSe o usuário escolher a opção apagar vá para a [Task 5]\n\n[Task 2]\n1.\tPeça para ele informar as informações abaixo. \n   - Data do gasto (DD/MM/AAAA)\n   - Descrição do item\n   - Valor\n   - Moeda (BRL)\n   - Nome do fornecedor\n   - Tipo de despesa\n2.\tInsira os dados no banco utilizando a tool insertrow.\n\n[Task 3]\n1.\tCrie uma lista numérica com os campos abaixo e pergunte por qual campo será a busca \n   - Data do gasto\n   - Descrição do item\n   - Valor\n   - Moeda\n   - Nome do fornecedor\n   - Tipo de despesa\n2.\tBusque os dados no banco utilizando a tool selectrow\n3.\tCrie uma lista numérica com os dados retornados.\n\n[Task 4]\n1.\tCrie uma lista numérica com os campos abaixo e pergunte por qual campo será a busca.\n- Data do gasto\n- Descrição do item\n- Valor\n- Moeda\n- Nome do fornecedor\n- Tipo de despesa\n2.\tBusque os dados no banco utilizando a tool selectrow\n3.\tCrie uma lista numérica com os dados retornados.\n4.\tPergunte qual o campo e o valor a ser atualizado.\n5.\tAtualize o dado fornecido no banco de dados utilizando a tool updaterow.\n\n[Task 5]\n1.\tCrie uma lista numérica com os campos abaixo e pergunte por qual campo será a busca.\n- Data do gasto\n- Descrição do item\n- Valor\n- Moeda\n- Nome do fornecedor\n- Tipo de despesa\n2.\tBusque os dados no banco utilizando a tool selectrow\n3.\tCrie uma lista numérica com os dados retornados.\n4.\tApaga o ítem no banco de dados utilizando a tool deleterow.\n\n\n[Tools]\n- Utilize as tools abaixo para manipular os dados de despesa no banco postgre.\n-Insertrow = adiciona uma nova despesa\n-selectrow = consulta uma despesa\n-updaterow = atualiza uma despesa\n-deleterow = apaga uma despesa\n\n\n [Constraints]\n- Não responda nada fora do escopo de controle de despesas.\n- Se for questionado sobre outro assunto, diga: “Sou um assistente de controle financeiro e só posso registrar despesas.”\n- Nunca forneça respostas aleatórias.\n- Use a data atual como referência se o usuário não especificar.\n- Se o tipo de despesa não for informado faça uma inferência pelo nome do ítem.\n- Utilize sempre ponto para como separador de valor.\n- Sempre converta a data para o formato AAAA-MM-DD.\n- Comprimente o usuário apenas na primeira interação.\n\n[Output]\nApós executar a [Task 2] responda:\n“✅Despesa registrada: [item] – R$[Valor] em [data]”\n\nApós executar a [Task 3] responda:\n“1. Ítem - [item], valor - R$[Valor], loja - [fornecedor], data - [data]”\n\nApós executar a [Task 4] responda com a mensagem colocando no final o campo e novo valor:\n“🔄️Despesa atualizada: [item] – campo: “\n\nApós executar a [Task 5] responda::\n“❌Despesa apagada: [item] “\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -576,
+        -64
+      ],
+      "id": "eba23de7-66fa-481b-8200-7c54e6f3cdf8",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -800,
+        -64
+      ],
+      "id": "82d5c7c0-2c5b-476e-b5b6-6a96a6b8d2af",
+      "name": "When chat message received",
+      "webhookId": "0fecf4b9-8847-4d21-b9b8-2b964629d42e"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -576,
+        -1024
+      ],
+      "id": "b8f8ff19-3b40-40cb-9cea-476a33ad04c7",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -640,
+        128
+      ],
+      "id": "2174141a-e622-4c99-9e06-b3ca34ba696c",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 2
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -480,
+        128
+      ],
+      "id": "b778b903-44c3-4b2b-95e2-824245e87928",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "valor": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('valor', ``, 'number') }}",
+            "id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('id__using_to_match_', ``, 'string') }}",
+            "item": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('item', ``, 'string') }}",
+            "fornecedor": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fornecedor', ``, 'string') }}",
+            "tipo_despesa": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('tipo_despesa', ``, 'string') }}",
+            "data": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('data', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "item",
+              "displayName": "item",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fornecedor",
+              "displayName": "fornecedor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tipo_despesa",
+              "displayName": "tipo_despesa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        -32,
+        128
+      ],
+      "id": "59c1734b-4679-4102-b41b-28cd2fccdc83",
+      "name": "updaterow"
+    },
+    {
+      "parameters": {
+        "operation": "deleteTable",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "deleteCommand": "delete",
+        "where": {
+          "values": [
+            {
+              "column": "id",
+              "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('values0_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        96,
+        128
+      ],
+      "id": "113e8837-54e9-4547-b146-0606ac8f2031",
+      "name": "deleterow"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "valor": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('valor', ``, 'number') }}",
+            "item": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('item', ``, 'string') }}",
+            "fornecedor": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fornecedor', ``, 'string') }}",
+            "tipo_despesa": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('tipo_despesa', ``, 'string') }}",
+            "data": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('data', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "item",
+              "displayName": "item",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fornecedor",
+              "displayName": "fornecedor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tipo_despesa",
+              "displayName": "tipo_despesa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        -304,
+        128
+      ],
+      "id": "2d3f2744-abc4-4314-afc9-3b4df6620ddb",
+      "name": "insertrow"
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        -160,
+        128
+      ],
+      "id": "d417f7bd-aa3c-4b6f-a36b-06860e4e260e",
+      "name": "selectrow"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Update rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Delete table or rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Select rows from a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "updaterow": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "deleterow": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insertrow": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "selectrow": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "item": "abacaxi",
+          "valor": 10.1,
+          "fornecedor": "mundial",
+          "tipo_despesa": "pessoal",
+          "data": "2026-02-26"
+        }
+      }
+    ],
+    "Webhook1": [
+      {
+        "json": {
+          "id": "eb8ac4c8-fdd5-41b7-a290-f39042bd09ff",
+          "item": "99",
+          "valor": 29.9,
+          "fornecedor": "Uber Brasil",
+          "tipo_despesa": "pessoal",
+          "data": "2025-06-02"
+        }
+      }
+    ],
+    "Webhook2": [
+      {
+        "json": {
+          "id": "44a18247-bfd9-4161-b548-1d8653a45913"
+        }
+      }
+    ]
+  },
+  "versionId": "4a92215c-8691-4f19-a70f-19240f155311",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-03-10T10:37:48.953Z",
+      "createdAt": "2026-03-10T10:37:48.953Z",
+      "role": "workflow:owner",
+      "workflowId": "cplGVhYECrK7CY1V",
+      "projectId": "hpe7WmbQSau9ZZOx"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
