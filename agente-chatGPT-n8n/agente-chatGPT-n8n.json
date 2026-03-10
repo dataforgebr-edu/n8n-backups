@@ -1,0 +1,253 @@
+{
+  "updatedAt": "2026-03-10T10:40:34.905Z",
+  "createdAt": "2026-03-10T10:40:24.656Z",
+  "id": "AhCzPGKhdYYFfotF",
+  "name": "agente-chatGPT-n8n",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -480,
+        -96
+      ],
+      "id": "fb227f44-8e34-45fb-9c4d-4e56e9fbcdba",
+      "name": "When chat message received",
+      "webhookId": "98cc7a6d-f9f7-4f7d-b0b6-867735470208"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "[Role]\nVocê é um assistente de finanças pessoais. Seu único objetivo é registrar despesas informadas pelo usuário.\n[Task]\n1. Receba a mensagem do usuário contendo um gasto.\n2. Identifique e extraia:\n   - Data do gasto (AAAA-MM-DD)\n   - Descrição do item\n   - Valor\n   - Moeda (BRL)\n   - Nome do fornecedor\n   - Tipo de despesa (livre)\n3. Se a moeda for BTC (Bitcoin), use a ferramenta conversaoBTC antes de registrar o valor em BRL.\n4. Use a ferramenta de planilha para registrar os dados.\n[Tools]\n- Conversor de BTC: Retorna o valor atual de 1 BTC em BRL.\n- Planilha: Utilizar a planilhaFinanceira com os campos necessários — Data, Item, Valor (em BRL), Fornecedor, Tipo de Despesa.\n[Constraints]\n- Não responda nada fora do escopo de controle de despesas.\n- Se for questionado sobre outro assunto, diga: “Sou um assistente de controle financeiro e só posso registrar despesas.”\n- Nunca forneça respostas aleatórias.\n- Use a data atual como referência se o usuário não especificar.\n[Output]\nApós salvar, responda de forma curta e clara:\n\"Despesa registrada: [Item] – R$[valor convertido] em [data].\"\nExemplo de resposta:\n\"Despesa registrada: Pizza – R$52,30 em 17/06/2025.\"\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -128,
+        -96
+      ],
+      "id": "35dc50f2-ba75-4d91-aad9-307d6d7c89c7",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -256,
+        112
+      ],
+      "id": "41478969-61b2-47a6-a6f1-24efbc2d63d4",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 2
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -112,
+        112
+      ],
+      "id": "ddcd7037-358b-41a7-91e4-b6c892cb3e69",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1UVpaywZ9ukyT-DIQj1G4WeRESl04v8tzQNSfO2K9oio",
+          "mode": "list",
+          "cachedResultName": "PlanilhaFinanceira",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UVpaywZ9ukyT-DIQj1G4WeRESl04v8tzQNSfO2K9oio/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UVpaywZ9ukyT-DIQj1G4WeRESl04v8tzQNSfO2K9oio/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Data": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Data', ``, 'string') }}",
+            "Item": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Item', ``, 'string') }}",
+            "Fornecedor": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Fornecedor', ``, 'string') }}",
+            "Valor": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Valor', ``, 'string') }}",
+            "Tipo de despesa": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Tipo_de_despesa', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Data",
+              "displayName": "Data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Item",
+              "displayName": "Item",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fornecedor",
+              "displayName": "Fornecedor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Valor",
+              "displayName": "Valor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tipo de despesa",
+              "displayName": "Tipo de despesa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        144
+      ],
+      "id": "734eac2d-5d3d-4ab6-b01b-ac4b2c93c38b",
+      "name": "Append row in sheet in Google Sheets"
+    },
+    {
+      "parameters": {
+        "url": "https://api.coinbase.com/v2/prices/BTC-BRL/spot",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        48,
+        96
+      ],
+      "id": "26514bf4-3aa1-4fd5-8d4c-bb4dbf42c5ca",
+      "name": "HTTP Request"
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "47de8e00-afdb-46f6-b2b3-501b08ee0930",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-03-10T10:40:24.658Z",
+      "createdAt": "2026-03-10T10:40:24.658Z",
+      "role": "workflow:owner",
+      "workflowId": "AhCzPGKhdYYFfotF",
+      "projectId": "hpe7WmbQSau9ZZOx"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
