@@ -1,0 +1,397 @@
+{
+  "updatedAt": "2026-03-10T10:39:57.874Z",
+  "createdAt": "2026-03-10T10:39:21.755Z",
+  "id": "qWQigAOGS7l8dN5g",
+  "name": "First-Workflow",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Pesquisa de uso do N8N",
+        "formDescription": "Formulario para identificar o volume de pessoas que está utilizando n*n",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Nome",
+              "placeholder": "Rodrigo Silva",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "E-mail",
+              "fieldType": "email",
+              "placeholder": "email@xxx.com",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Telefone de contato",
+              "placeholder": "(99) 99999-9999",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Já trabalhou com n8n?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "1 ano"
+                  },
+                  {
+                    "option": "2 anos "
+                  },
+                  {
+                    "option": "3 anos "
+                  },
+                  {
+                    "option": "Nunca trabalhei"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        608,
+        928
+      ],
+      "id": "0aa29376-58c1-4843-98f8-d2d2be0a0613",
+      "name": "Formulário n8n",
+      "webhookId": "ee5594b3-e8eb-4170-919b-7a17b37b5585"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1qKmBAPt_xcsq23Qaz8pohdqJUnxM6Pt3G1eJpr-mjbY",
+          "mode": "list",
+          "cachedResultName": "Formulário n8n sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qKmBAPt_xcsq23Qaz8pohdqJUnxM6Pt3G1eJpr-mjbY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qKmBAPt_xcsq23Qaz8pohdqJUnxM6Pt3G1eJpr-mjbY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nome": "={{ $json.Nome }}",
+            "email": "={{ $json['E-mail'] }}",
+            "telefone": "={{ $json['Telefone de contato'] }}",
+            "trabalhou_n8n": "={{ $json['Já trabalhou com n8n?'] }}",
+            "data": "={{ $json.submittedAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "trabalhou_n8n",
+              "displayName": "trabalhou_n8n",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "enviado",
+              "displayName": "enviado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        816,
+        928
+      ],
+      "id": "c42b45f8-faa9-4d01-988a-3bbdd63997ca",
+      "name": "Append row in sheet"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Append row in sheet').item.json.email }}",
+        "subject": "Formulário n8n preenchido",
+        "message": "Tivemos mais um preenchimento no formulário de n8n",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "dataFile"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1232,
+        928
+      ],
+      "id": "7d6fbfb8-e6e3-4cc9-8e18-efcd58274241",
+      "name": "Send a message",
+      "webhookId": "593840da-e3f3-4e7d-bc3e-30523a0e989c"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1qKmBAPt_xcsq23Qaz8pohdqJUnxM6Pt3G1eJpr-mjbY",
+          "mode": "list",
+          "cachedResultName": "Formulário n8n sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qKmBAPt_xcsq23Qaz8pohdqJUnxM6Pt3G1eJpr-mjbY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qKmBAPt_xcsq23Qaz8pohdqJUnxM6Pt3G1eJpr-mjbY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "enviado": "={{ $json.labelIds[0] }}",
+            "data": "={{ $('Formulário n8n').item.json.submittedAt }}"
+          },
+          "matchingColumns": [
+            "data"
+          ],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "trabalhou_n8n",
+              "displayName": "trabalhou_n8n",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "enviado",
+              "displayName": "enviado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1472,
+        928
+      ],
+      "id": "b87b5879-7dbb-4b93-bb05-be85dd7fc467",
+      "name": "Update row in sheet"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1qKmBAPt_xcsq23Qaz8pohdqJUnxM6Pt3G1eJpr-mjbY",
+          "mode": "list",
+          "cachedResultName": "Formulário n8n sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qKmBAPt_xcsq23Qaz8pohdqJUnxM6Pt3G1eJpr-mjbY/edit?usp=drivesdk"
+        },
+        "options": {
+          "binaryPropertyName": "dataFile",
+          "googleFileConversion": {
+            "conversion": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1024,
+        928
+      ],
+      "id": "d619f6ee-0efa-4439-9919-9576a9c1edcf",
+      "name": "Download file"
+    }
+  ],
+  "connections": {
+    "Formulário n8n": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "eb183e96-6a98-470e-8ade-18d9eb7cdf6b",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-03-10T10:39:21.756Z",
+      "createdAt": "2026-03-10T10:39:21.756Z",
+      "role": "workflow:owner",
+      "workflowId": "qWQigAOGS7l8dN5g",
+      "projectId": "hpe7WmbQSau9ZZOx"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
