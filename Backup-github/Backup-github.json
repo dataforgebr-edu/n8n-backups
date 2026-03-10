@@ -1,0 +1,376 @@
+{
+  "updatedAt": "2026-03-10T09:25:55.143Z",
+  "createdAt": "2026-03-10T08:10:47.437Z",
+  "id": "Ex2dSwvAA9Dwx1Cr",
+  "name": "Backup-github",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        -16
+      ],
+      "id": "e4d5fa93-21cb-4312-986b-7d550f05001a",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        80,
+        -16
+      ],
+      "id": "3c014095-20ba-4cd0-b430-30d0ff294f4d",
+      "name": "Get many workflows",
+      "credentials": {
+        "n8nApi": {
+          "id": "abqP9uz6ucJTAQoL",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "79824a01-b325-49d4-b774-3375540061d7",
+              "name": "owner",
+              "value": "dataforgebr-edu",
+              "type": "string"
+            },
+            {
+              "id": "dc447bcf-bbe1-4e5f-a92f-ca2c2da8ad36",
+              "name": "repository",
+              "value": "n8n-backups",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -128,
+        -16
+      ],
+      "id": "c6b5cfbf-a5b7-4c12-a6c9-bdc0bfb6a1fc",
+      "name": "Informaões github"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "mode": "each",
+        "options": {
+          "format": true,
+          "fileName": "={{ $json.name }}.json"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1104,
+        32
+      ],
+      "id": "e60c6266-d373-4e24-8ad9-c7d66dc49d31",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('Informaões github').first().json.owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('Informaões github').first().json.repository }}",
+          "mode": "name"
+        },
+        "filePath": "={{ $('Get many workflows').item.json.name }}/{{ $('Get many workflows').item.json.name }}.json",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        320,
+        -176
+      ],
+      "id": "4f03ded6-2ab5-46e9-8f9e-529a70a790fd",
+      "name": "Get a file",
+      "webhookId": "616b0b09-7b4b-4be5-8344-cdf63278b958",
+      "alwaysOutputData": true,
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "YUEOfARlcrSmwgrE",
+          "name": "GitHub account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "data",
+              "field2": "data"
+            },
+            {
+              "field1": "data.data.id",
+              "field2": "data.id"
+            }
+          ]
+        },
+        "resolve": "preferInput2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.compareDatasets",
+      "typeVersion": 2.3,
+      "position": [
+        720,
+        -176
+      ],
+      "id": "385fbf5b-7711-4ef8-9519-9cb94516bc76",
+      "name": "Compare Datasets"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.data }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        928,
+        32
+      ],
+      "id": "a9e67eea-94bb-4c4b-aac9-ed63b7bfd716",
+      "name": "Converte para .data"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        512,
+        -176
+      ],
+      "id": "b7e25e3c-969a-4d52-8578-03d5c2db2c60",
+      "name": "Converte para binário from git",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "875fdbc4-3445-4c16-a909-f4988c31de64",
+              "name": "data",
+              "value": "={{ $json}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        336,
+        16
+      ],
+      "id": "a2d3266b-703f-4adc-9c81-c0b9e746a03e",
+      "name": "Converte para binário from n8n"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('Informaões github').first().json.owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('Informaões github').first().json.repository }}",
+          "mode": "name"
+        },
+        "filePath": "={{ $('Compare Datasets').item.json.data.name }}/{{ $('Compare Datasets').item.json.data.name }}.json",
+        "binaryData": true,
+        "commitMessage": "={{ $('Compare Datasets').item.json.data.name }}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        1312,
+        32
+      ],
+      "id": "51494a61-c176-4565-bd87-535bd96f616a",
+      "name": "commit github",
+      "webhookId": "004f0955-58de-4547-8f0d-e7f12202945d",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "YUEOfARlcrSmwgrE",
+          "name": "GitHub account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Informaões github",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many workflows": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Converte para binário from n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Informaões github": {
+      "main": [
+        [
+          {
+            "node": "Get many workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "commit github",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Converte para binário from git",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare Datasets": {
+      "main": [
+        [],
+        [],
+        [],
+        [
+          {
+            "node": "Converte para .data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converte para binário from git": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converte para binário from n8n": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Converte para .data": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "commit github": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "42736263-8082-4e21-99dd-fe32c0f817fa",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-03-10T08:10:47.439Z",
+      "createdAt": "2026-03-10T08:10:47.439Z",
+      "role": "workflow:owner",
+      "workflowId": "Ex2dSwvAA9Dwx1Cr",
+      "projectId": "hpe7WmbQSau9ZZOx"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
