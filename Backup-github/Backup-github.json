@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-10T09:25:55.143Z",
+  "updatedAt": "2026-03-10T10:06:28.372Z",
   "createdAt": "2026-03-10T08:10:47.437Z",
   "id": "Ex2dSwvAA9Dwx1Cr",
   "name": "Backup-github",
@@ -68,24 +68,6 @@
     },
     {
       "parameters": {
-        "operation": "toJson",
-        "mode": "each",
-        "options": {
-          "format": true,
-          "fileName": "={{ $json.name }}.json"
-        }
-      },
-      "type": "n8n-nodes-base.convertToFile",
-      "typeVersion": 1.1,
-      "position": [
-        1104,
-        32
-      ],
-      "id": "e60c6266-d373-4e24-8ad9-c7d66dc49d31",
-      "name": "Convert to File"
-    },
-    {
-      "parameters": {
         "authentication": "oAuth2",
         "resource": "file",
         "operation": "get",
@@ -125,11 +107,7 @@
         "mergeByFields": {
           "values": [
             {
-              "field1": "data",
-              "field2": "data"
-            },
-            {
-              "field1": "data.data.id",
+              "field1": "data.id",
               "field2": "data.id"
             }
           ]
@@ -145,21 +123,6 @@
       ],
       "id": "385fbf5b-7711-4ef8-9519-9cb94516bc76",
       "name": "Compare Datasets"
-    },
-    {
-      "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={{ $json.data }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        928,
-        32
-      ],
-      "id": "a9e67eea-94bb-4c4b-aac9-ed63b7bfd716",
-      "name": "Converte para .data"
     },
     {
       "parameters": {
@@ -216,13 +179,13 @@
         },
         "filePath": "={{ $('Compare Datasets').item.json.data.name }}/{{ $('Compare Datasets').item.json.data.name }}.json",
         "binaryData": true,
-        "commitMessage": "={{ $('Compare Datasets').item.json.data.name }}"
+        "commitMessage": "={{ $('Compare Datasets').item.json.data.name}} {{ $now.toString() }}"
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
         1312,
-        32
+        176
       ],
       "id": "51494a61-c176-4565-bd87-535bd96f616a",
       "name": "commit github",
@@ -233,6 +196,107 @@
           "name": "GitHub account"
         }
       }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('Informaões github').first().json.owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('Informaões github').first().json.repository }}",
+          "mode": "name"
+        },
+        "filePath": "={{ $('Compare Datasets').item.json.data.name }}/{{ $('Compare Datasets').item.json.data.name }}.json",
+        "binaryData": true,
+        "commitMessage": "={{ $('Compare Datasets').item.json.data.name }} {{ $now.toString() }}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        1312,
+        -32
+      ],
+      "id": "adbf1f92-0ca5-4bc5-aafa-3fb7b06c2997",
+      "name": "edit-github",
+      "webhookId": "004f0955-58de-4547-8f0d-e7f12202945d",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "YUEOfARlcrSmwgrE",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "mode": "each",
+        "options": {
+          "format": true,
+          "fileName": "={{ $json.name }}.json"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1104,
+        176
+      ],
+      "id": "e60c6266-d373-4e24-8ad9-c7d66dc49d31",
+      "name": "Converte para json commit"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.data }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        928,
+        -32
+      ],
+      "id": "7ead0d50-e698-4f03-80b7-43da4854337f",
+      "name": "Converte para .data edit"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.data }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        928,
+        176
+      ],
+      "id": "a9e67eea-94bb-4c4b-aac9-ed63b7bfd716",
+      "name": "Converte para .data commit"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "mode": "each",
+        "options": {
+          "format": true,
+          "fileName": "={{ $json.name }}.json"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1104,
+        -32
+      ],
+      "id": "fcb408fc-ce7c-4d99-9790-31bdde18c9e2",
+      "name": "Converte para json edit"
     }
   ],
   "connections": {
@@ -274,17 +338,6 @@
         ]
       ]
     },
-    "Convert to File": {
-      "main": [
-        [
-          {
-            "node": "commit github",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Get a file": {
       "main": [
         [
@@ -300,10 +353,16 @@
       "main": [
         [],
         [],
-        [],
         [
           {
-            "node": "Converte para .data",
+            "node": "Converte para .data edit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Converte para .data commit",
             "type": "main",
             "index": 0
           }
@@ -332,20 +391,53 @@
         ]
       ]
     },
-    "Converte para .data": {
+    "commit github": {
+      "main": [
+        []
+      ]
+    },
+    "Converte para json commit": {
       "main": [
         [
           {
-            "node": "Convert to File",
+            "node": "commit github",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "commit github": {
+    "Converte para .data edit": {
       "main": [
-        []
+        [
+          {
+            "node": "Converte para json edit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converte para .data commit": {
+      "main": [
+        [
+          {
+            "node": "Converte para json commit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converte para json edit": {
+      "main": [
+        [
+          {
+            "node": "edit-github",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -359,7 +451,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "42736263-8082-4e21-99dd-fe32c0f817fa",
+  "versionId": "a5c6f0cb-c8d3-451d-ac14-75a989c19738",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
