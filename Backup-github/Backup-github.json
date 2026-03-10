@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-10T10:29:17.682Z",
+  "updatedAt": "2026-03-10T10:30:36.018Z",
   "createdAt": "2026-03-10T08:10:47.437Z",
   "id": "Ex2dSwvAA9Dwx1Cr",
   "name": "Backup-github",
@@ -303,8 +303,8 @@
         "rule": {
           "interval": [
             {
-              "field": "hours",
-              "hoursInterval": 6
+              "field": "minutes",
+              "minutesInterval": 2
             }
           ]
         }
@@ -480,8 +480,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "799bb995-4809-4195-a9de-e12be8e39b4b",
-  "activeVersionId": "799bb995-4809-4195-a9de-e12be8e39b4b",
+  "versionId": "796761f3-e916-4ab1-af74-8d3bca1702ef",
+  "activeVersionId": "796761f3-e916-4ab1-af74-8d3bca1702ef",
   "triggerCount": 1,
   "shared": [
     {
@@ -493,9 +493,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-03-10T10:29:27.000Z",
-    "createdAt": "2026-03-10T10:29:17.683Z",
-    "versionId": "799bb995-4809-4195-a9de-e12be8e39b4b",
+    "updatedAt": "2026-03-10T10:30:51.000Z",
+    "createdAt": "2026-03-10T10:30:36.019Z",
+    "versionId": "796761f3-e916-4ab1-af74-8d3bca1702ef",
     "workflowId": "Ex2dSwvAA9Dwx1Cr",
     "nodes": [
       {
@@ -795,8 +795,8 @@
           "rule": {
             "interval": [
               {
-                "field": "hours",
-                "hoursInterval": 6
+                "field": "minutes",
+                "minutesInterval": 2
               }
             ]
           }
@@ -959,7 +959,7 @@
       }
     },
     "authors": "Rodrigo Silva",
-    "name": "Version 799bb995",
+    "name": "Version 796761f3",
     "description": "",
     "autosaved": true
   },
