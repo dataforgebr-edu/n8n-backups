@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-10T10:11:09.695Z",
+  "updatedAt": "2026-03-10T10:29:17.682Z",
   "createdAt": "2026-03-10T08:10:47.437Z",
   "id": "Ex2dSwvAA9Dwx1Cr",
   "name": "Backup-github",
@@ -11,8 +11,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -320,
-        -16
+        -336,
+        -240
       ],
       "id": "e4d5fa93-21cb-4312-986b-7d550f05001a",
       "name": "When clicking ‘Execute workflow’"
@@ -297,18 +297,32 @@
       ],
       "id": "fcb408fc-ce7c-4d99-9790-31bdde18c9e2",
       "name": "Converte para json edit"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -336,
+        -16
+      ],
+      "id": "c4dceb28-fd25-4314-a1f0-f309918910d2",
+      "name": "Schedule Trigger"
     }
   ],
   "connections": {
     "When clicking ‘Execute workflow’": {
       "main": [
-        [
-          {
-            "node": "Informaões github",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Get many workflows": {
@@ -439,6 +453,17 @@
           }
         ]
       ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Informaões github",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -451,7 +476,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "03455362-9ea6-4543-823d-194df0bc345f",
+  "versionId": "799bb995-4809-4195-a9de-e12be8e39b4b",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
