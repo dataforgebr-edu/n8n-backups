@@ -1,0 +1,208 @@
+{
+  "updatedAt": "2026-03-10T10:26:13.608Z",
+  "createdAt": "2026-03-10T10:13:00.624Z",
+  "id": "n3byDQAqXp46uZHH",
+  "name": "restore-github",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e3121d72-7800-439a-9e81-38f77e2510d2",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cb3cd19b-c553-445d-9dc3-193877b305e0",
+              "name": "file",
+              "value": "Whatsapp Agent/Whatsapp Agent.json",
+              "type": "string"
+            },
+            {
+              "id": "4de21942-a2c2-4229-9ea9-ed663c1378b6",
+              "name": "owner",
+              "value": "dataforgebr-edu",
+              "type": "string"
+            },
+            {
+              "id": "4472c7ad-c9e9-42f9-821f-fc38bb07bdf5",
+              "name": "repository",
+              "value": "n8n-backups",
+              "type": "string"
+            },
+            {
+              "id": "f36ed52a-7ebc-419f-bebb-7bb369d9f1a6",
+              "name": "versao",
+              "value": "string hash do github",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a1c44a9a-60dc-49a1-a8ee-65865f554ae1",
+      "name": "Basic Informations"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $json.owner }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "mode": "name",
+          "value": "={{ $json.repository }}"
+        },
+        "filePath": "={{ $json.file }}",
+        "additionalParameters": {
+          "reference": "={{ $json.versao }}"
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "1a43c960-6bf2-44cb-a8fc-e584ead5a2e8",
+      "name": "Get a file",
+      "webhookId": "65a61efb-b322-48d7-a211-7722fe7aa195",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "YUEOfARlcrSmwgrE",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "2940abe2-6c7f-4a1f-ba24-bb1cb6986cbe",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "workflowId": {
+          "__rl": true,
+          "value": "={{ $json.data.id }}",
+          "mode": "id"
+        },
+        "workflowObject": "={{ JSON.stringify($json.data) }}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        832,
+        0
+      ],
+      "id": "099a111e-2800-43fd-b2ca-7dd7513d366b",
+      "name": "Update a workflow",
+      "credentials": {
+        "n8nApi": {
+          "id": "abqP9uz6ucJTAQoL",
+          "name": "n8n account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Basic Informations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic Informations": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Update a workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "cb182961-0512-4682-804e-2703e9dc79b2",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-03-10T10:13:00.632Z",
+      "createdAt": "2026-03-10T10:13:00.632Z",
+      "role": "workflow:owner",
+      "workflowId": "n3byDQAqXp46uZHH",
+      "projectId": "hpe7WmbQSau9ZZOx"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
