@@ -1,27 +1,11 @@
 {
-  "updatedAt": "2026-03-10T10:26:53.574Z",
+  "updatedAt": "2026-03-11T08:49:16.022Z",
   "createdAt": "2026-03-06T01:21:20.253Z",
   "id": "mnWXiQoyZNMYYUQS",
   "name": "Whatsapp-Agent",
   "active": false,
   "isArchived": false,
   "nodes": [
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "67337446-133d-40a7-afe1-9c645c6f7dd3",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
-      "position": [
-        -352,
-        -160
-      ],
-      "id": "61f1ff58-7b34-4902-82dc-516d4e56394a",
-      "name": "Webhook",
-      "webhookId": "67337446-133d-40a7-afe1-9c645c6f7dd3"
-    },
     {
       "parameters": {
         "promptType": "define",
@@ -66,33 +50,6 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://evolution.dataforgebr.com/message/sendText/Bot Financeiro",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "FC6086B57004-4313-AB8C-7E4C6903FFE6"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"number\": \"{{ $('Webhook').item.json.body.data.key.remoteJid }}\",\n  \"text\": \"{{ $json.output.replaceAll('\"','\\\\\"').replaceAll(\"\\n\", '\\\\n') }}\"\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        832,
-        -160
-      ],
-      "id": "f2da9822-dad1-42c5-9c23-6a309b4ea54d",
-      "name": "HTTP Request"
-    },
-    {
-      "parameters": {
         "sessionIdType": "customKey",
         "sessionKey": "={{ $json.body.data.key.remoteJid }}",
         "contextWindowLength": 2
@@ -117,6 +74,7 @@
         "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
         "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
         "additionalFields": {
+          "description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Description', ``, 'string') }}",
           "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', ``, 'string') }}"
         }
       },
@@ -223,7 +181,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -432,
+        -368,
         -288
       ],
       "id": "00bd4b86-796d-467a-8095-e9df33add34d",
@@ -259,20 +217,52 @@
       ],
       "id": "bc87cdbb-55a4-4ff9-805e-8fe2fa81b04f",
       "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "67337446-133d-40a7-afe1-9c645c6f7dd3",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -288,
+        -160
+      ],
+      "id": "61f1ff58-7b34-4902-82dc-516d4e56394a",
+      "name": "RecebeMemensagens",
+      "webhookId": "67337446-133d-40a7-afe1-9c645c6f7dd3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolution.dataforgebr.com/message/sendText/Bot Financeiro",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "FC6086B57004-4313-AB8C-7E4C6903FFE6"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $('RecebeMemensagens').item.json.body.data.key.remoteJid }}\",\n  \"text\": \"{{ $json.output.replaceAll('\"','\\\\\"').replaceAll(\"\\n\", '\\\\n') }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        832,
+        -160
+      ],
+      "id": "f2da9822-dad1-42c5-9c23-6a309b4ea54d",
+      "name": "RespostaUsuario"
     }
   ],
   "connections": {
-    "Webhook": {
-      "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "OpenAI Chat Model": {
       "ai_languageModel": [
         [
@@ -288,7 +278,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "RespostaUsuario",
             "type": "main",
             "index": 0
           }
@@ -349,6 +339,17 @@
           }
         ]
       ]
+    },
+    "RecebeMemensagens": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -360,140 +361,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "Webhook": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n-jornadadedados-n8n.jgirz9.easypanel.host",
-            "user-agent": "axios/1.13.2",
-            "content-length": "1508",
-            "accept": "application/json, text/plain, */*",
-            "accept-encoding": "gzip, compress, deflate, br",
-            "content-type": "application/json",
-            "x-forwarded-for": "172.18.0.1",
-            "x-forwarded-host": "n8n-jornadadedados-n8n.jgirz9.easypanel.host",
-            "x-forwarded-port": "443",
-            "x-forwarded-proto": "https",
-            "x-forwarded-server": "cea0ed12079e",
-            "x-real-ip": "172.18.0.1"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "event": "messages.upsert",
-            "instance": "Bot Financeiro",
-            "data": {
-              "key": {
-                "remoteJid": "5521994496428@s.whatsapp.net",
-                "remoteJidAlt": "5521994496428@s.whatsapp.net",
-                "fromMe": false,
-                "id": "AC9690655D230F3F2E582C4297CF1A32",
-                "participant": "",
-                "addressingMode": "lid"
-              },
-              "pushName": "Rodrigo Silva",
-              "status": "DELIVERY_ACK",
-              "message": {
-                "conversation": "Oi, bom dia!",
-                "messageContextInfo": {
-                  "threadId": [],
-                  "deviceListMetadata": {
-                    "senderKeyIndexes": [],
-                    "recipientKeyIndexes": [],
-                    "senderKeyHash": {
-                      "0": 20,
-                      "1": 208,
-                      "2": 117,
-                      "3": 179,
-                      "4": 44,
-                      "5": 51,
-                      "6": 129,
-                      "7": 171,
-                      "8": 142,
-                      "9": 139
-                    },
-                    "senderTimestamp": {
-                      "low": 1772646520,
-                      "high": 0,
-                      "unsigned": true
-                    },
-                    "recipientKeyHash": {
-                      "0": 200,
-                      "1": 3,
-                      "2": 127,
-                      "3": 24,
-                      "4": 204,
-                      "5": 20,
-                      "6": 59,
-                      "7": 172,
-                      "8": 78,
-                      "9": 112
-                    },
-                    "recipientTimestamp": {
-                      "low": 1772760662,
-                      "high": 0,
-                      "unsigned": true
-                    }
-                  },
-                  "deviceListMetadataVersion": 2,
-                  "messageSecret": {
-                    "0": 116,
-                    "1": 187,
-                    "2": 247,
-                    "3": 23,
-                    "4": 179,
-                    "5": 45,
-                    "6": 200,
-                    "7": 80,
-                    "8": 17,
-                    "9": 64,
-                    "10": 136,
-                    "11": 122,
-                    "12": 204,
-                    "13": 72,
-                    "14": 158,
-                    "15": 141,
-                    "16": 31,
-                    "17": 173,
-                    "18": 235,
-                    "19": 160,
-                    "20": 2,
-                    "21": 49,
-                    "22": 199,
-                    "23": 74,
-                    "24": 45,
-                    "25": 78,
-                    "26": 192,
-                    "27": 244,
-                    "28": 40,
-                    "29": 166,
-                    "30": 35,
-                    "31": 129
-                  }
-                }
-              },
-              "messageType": "conversation",
-              "messageTimestamp": 1773127952,
-              "instanceId": "b20f07c8-3032-4f86-ba0b-5c82fbd4cb00",
-              "source": "android"
-            },
-            "destination": "https://n8n-jornadadedados-n8n.jgirz9.easypanel.host/webhook-test/67337446-133d-40a7-afe1-9c645c6f7dd3",
-            "date_time": "2026-03-10T04:32:33.151Z",
-            "sender": "5521992496360@s.whatsapp.net",
-            "server_url": "https://evolution.dataforgebr.com",
-            "apikey": "FC6086B57004-4313-AB8C-7E4C6903FFE6"
-          },
-          "webhookUrl": "https://n8n-jornadadedados-n8n.jgirz9.easypanel.host/webhook-test/67337446-133d-40a7-afe1-9c645c6f7dd3",
-          "executionMode": "test"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ]
-  },
-  "versionId": "9b2de396-1406-43a4-be57-7b37d128b75b",
+  "pinData": {},
+  "versionId": "4da4632c-d286-4f55-b995-16edb9fffabf",
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
